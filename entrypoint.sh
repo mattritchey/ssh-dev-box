@@ -3,8 +3,8 @@
 # Generate a random secret
 SECRET=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | head -c 16)
 
-# Start ttyd (web terminal) on port 7681
-ttyd -p 7681 -c user:$SECRET bash &
+# Start wetty (web terminal) on port 7681
+wetty --port 7681 --host 0.0.0.0 &
 
 echo "SECRET: $SECRET"
 echo "Web terminal starting..."

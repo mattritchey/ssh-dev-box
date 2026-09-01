@@ -22,9 +22,10 @@ RUN apt-get update && apt-get install -y \
     bash \
     && rm -rf /var/lib/apt/lists/*
 
-# Install ttyd from pre-built binary
-RUN curl -sL https://github.com/nicm/ttyd/releases/download/1.7.7/ttyd.x86_64 -o /usr/local/bin/ttyd && \
-    chmod +x /usr/local/bin/ttyd
+# Install web terminal (wetty) via npm
+RUN apt-get update && apt-get install -y npm && \
+    npm install -g wetty && \
+    rm -rf /var/lib/apt/lists/*
 
 # Install cloudflared
 RUN curl -sL https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64 -o /usr/local/bin/cloudflared && \
