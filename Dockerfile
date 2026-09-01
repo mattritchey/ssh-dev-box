@@ -21,6 +21,10 @@ RUN apt-get update && apt-get install -y \
     bash \
     && rm -rf /var/lib/apt/lists/*
 
+# Install ttyd (web terminal)
+RUN curl -sL https://github.com/nicm/ttyd/releases/latest/download/ttyd.x86_64 -o /usr/local/bin/ttyd && \
+    chmod +x /usr/local/bin/ttyd
+
 # Create user
 RUN useradd -m -s /bin/bash user
 
@@ -47,6 +51,6 @@ RUN mkdir -p /run/sshd && \
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-EXPOSE 2222
+EXPOSE 2222 7681
 
 CMD ["/entrypoint.sh"]
