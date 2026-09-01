@@ -22,8 +22,9 @@ RUN apt-get update && apt-get install -y \
     bash \
     && rm -rf /var/lib/apt/lists/*
 
-# Install web terminal (wetty) via npm
-RUN apt-get update && apt-get install -y npm && \
+# Install Node.js 20 (needed for wetty)
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs && \
     npm install -g wetty && \
     rm -rf /var/lib/apt/lists/*
 
