@@ -19,11 +19,15 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     bash \
+    cmake \
+    libjson-c-dev \
+    libwebsockets-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Install ttyd (web terminal)
-RUN curl -sL https://github.com/nicm/ttyd/releases/latest/download/ttyd.x86_64 -o /usr/local/bin/ttyd && \
-    chmod +x /usr/local/bin/ttyd
+RUN git clone https://github.com/nicm/ttyd.git /tmp/ttyd && \
+    cd /tmp/ttyd && cmake . && make && make install && \
+    rm -rf /tmp/ttyd
 
 # Create user
 RUN useradd -m -s /bin/bash user
