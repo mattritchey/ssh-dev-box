@@ -12,5 +12,5 @@ ttyd -p 7681 -c user:$SECRET bash &
 echo "SECRET: $SECRET"
 echo "Web terminal will be available at the tunnel URL"
 
-# Keep container alive
-tail -f /dev/null
+# Start cloudflare tunnel to web terminal
+cloudflared tunnel --url http://localhost:7681
