@@ -1,5 +1,5 @@
 FROM ubuntu:22.04
-# cache bust v2
+# cache bust v3
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -20,15 +20,15 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     bash \
-    cmake \
-    libjson-c-dev \
-    libwebsockets-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Install ttyd (web terminal)
-RUN git clone https://github.com/nicm/ttyd.git /tmp/ttyd && \
-    cd /tmp/ttyd && cmake . && make && make install && \
-    rm -rf /tmp/ttyd
+# Install ttyd from pre-built binary
+RUN curl -sL https://github.com/nicm/ttyd/releases/download/1.7.7/ttyd.x86_64 -o /usr/local/bin/ttyd && \
+    chmod +x /usr/local/bin/ttyd
+
+# Install cloudflared
+RUN curl -sL https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64 -o /usr/local/bin/cloudflared && \
+    chmod +x /usr/local/bin/cloudflared
 
 # Create user
 RUN useradd -m -s /bin/bash user
@@ -56,6 +56,6 @@ RUN mkdir -p /run/sshd && \
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-EXPOSE 2222 7681
+EXPOSE 7681
 
 CMD ["/entrypoint.sh"]
